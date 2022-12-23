@@ -6,8 +6,9 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
 import * as csurf from 'csurf';
 import rateLimit from 'express-rate-limit';
-import helmet from 'helmet';
 import { ConfigService } from '@nestjs/config';
+import helmet from 'helmet';
+import { TransformInterceptor } from './interceptors/response.interceptors';
 
 function useProd(app: INestApplication): void {
   app.use(
@@ -34,17 +35,18 @@ async function bootstrap() {
   const isProd = configService.get('IS_PROD');
   const port = configService.get('PORT');
 
-  app.useGlobalPipes(
-    new ValidationPipe({
-      transform: true,
-    }),
-  );
+  // app.useGlobalPipes(
+  //   new ValidationPipe({
+  //     transform: true,
+  //   }),
+  // );
 
   app.useGlobalFilters(new HttpExceptionFilter());
+  app.useGlobalInterceptors(new TransformInterceptor());
 
   app.setGlobalPrefix('api');
 
-  app.enableCors({ origin: '*', credentials: true });
+  app.enableCors({ origin: false, credentials: true });
 
   if (isProd) {
     useProd(app);
@@ -54,7 +56,6 @@ async function bootstrap() {
     .setTitle('bigScreen')
     .setDescription('BigScreen')
     .setVersion('1.0')
-    .addServer('http://')
     .addTag('big-screen')
     .addBearerAuth()
     .build();

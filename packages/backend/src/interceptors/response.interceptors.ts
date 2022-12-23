@@ -21,14 +21,17 @@ export class TransformInterceptor<T>
     context: ExecutionContext,
     next: CallHandler,
   ): Observable<IResponse<T>> {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [_, serverRes] = context.getArgs();
     const msg = serverRes.statusCode.toString().match(/^[23]\d+/)
       ? 'success'
       : 'fail';
 
-    return next
-      .handle()
-      .pipe(map((data) => ({ data, code: serverRes.statusCode, msg })));
+    return next.handle().pipe(
+      map((data) => ({
+        data,
+        code: serverRes.statusCode,
+        msg,
+      })),
+    );
   }
 }

@@ -21,6 +21,6 @@ export class UserValidatePipe implements PipeTransform {
    * 验证密码
    */
   private isPasswordInvalid(pwd: string): boolean {
-    return pwd.length < 4 || pwd.length > 16;
+    return pwd.length < 4 || pwd.length > 60;
   }
 }
