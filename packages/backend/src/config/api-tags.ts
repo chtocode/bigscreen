@@ -3,4 +3,6 @@ export enum IApiTags {
   Risk = 'Risk',
   Rescue = 'Rescue',
   Users = 'Users',
+  Building = 'Building',
+  Enterprise = 'Enterprise',
 }

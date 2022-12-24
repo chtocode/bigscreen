@@ -7,6 +7,7 @@ import { validate } from './utils/env.validation';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RiskModule } from './risk/risk.module';
 import { RescueModule } from './rescue/rescue.module';
+import { EnterpriseModule } from './enterprise/enterprise.module';
 
 const envFilePath: string | string[] =
   process.env.NODE_ENV === 'production' ? '.env' : '.dev.env';
@@ -35,6 +36,7 @@ const envFilePath: string | string[] =
     }),
     RiskModule,
     RescueModule,
+    EnterpriseModule,
   ],
   controllers: [AppController],
   providers: [AppService],
