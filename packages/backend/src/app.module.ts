@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { validate } from './utils/env.validation';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { RiskModule } from './risk/risk.module';
 
 const envFilePath: string | string[] =
   process.env.NODE_ENV === 'production' ? '.env' : '.dev.env';
@@ -31,6 +32,7 @@ const envFilePath: string | string[] =
       logging: ['error'],
       logger: 'file',
     }),
+    RiskModule,
   ],
   controllers: [AppController],
   providers: [AppService],

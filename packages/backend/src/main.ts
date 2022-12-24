@@ -1,13 +1,13 @@
-import { INestApplication, ValidationPipe } from '@nestjs/common';
+import { INestApplication } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { HttpExceptionFilter } from './filter/http-exception.filter';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
 import * as csurf from 'csurf';
 import rateLimit from 'express-rate-limit';
-import { ConfigService } from '@nestjs/config';
 import helmet from 'helmet';
+import { AppModule } from './app.module';
+import { HttpExceptionFilter } from './filter/http-exception.filter';
 import { TransformInterceptor } from './interceptors/response.interceptors';
 
 function useProd(app: INestApplication): void {
