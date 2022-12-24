@@ -19,10 +19,10 @@ export class AuthService {
     private blacklistRepo: Repository<TokenBlacklistEntity>,
   ) {}
 
-  async validateUser(name: string, pass: string): Promise<any> {
+  async validateUser(name: string): Promise<any> {
     const user = await this.usersService.findOne({ name });
 
-    if (user && this.validatePwd(pass, user)) {
+    if (user) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...result } = user;
 
@@ -43,16 +43,16 @@ export class AuthService {
     return { token, userId: id };
   }
 
-  validatePwd(pwd: string, user: UserEntity): boolean {
-    const { key, password, iv } = user;
-    const result = aesEncrypt(
-      pwd,
-      Buffer.from(key, 'hex'),
-      Buffer.from(iv, 'hex'),
-    );
+  // validatePwd(pwd: string, user: UserEntity): boolean {
+  //   const { key, password, iv } = user;
+  //   const result = aesEncrypt(
+  //     pwd,
+  //     Buffer.from(key, 'hex'),
+  //     Buffer.from(iv, 'hex'),
+  //   );
 
-    return password === result;
-  }
+  //   return password === result;
+  // }
 
   async invalidToken(token: string): Promise<boolean> {
     const value = token.split('Bearer ')[1];
