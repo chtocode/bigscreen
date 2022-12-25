@@ -5,4 +5,5 @@ export enum IApiTags {
   Users = 'Users',
   Building = 'Building',
   Enterprise = 'Enterprise',
+  Monitor = 'Monitor',
 }

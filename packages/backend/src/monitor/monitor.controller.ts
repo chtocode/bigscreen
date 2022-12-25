@@ -13,41 +13,35 @@ import {
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { IApiTags } from '../config/api-tags';
-import { CreateRiskDto, UpdateRiskDto } from './dto/risk.dto';
-import { RiskService } from './risk.service';
+import { CreateMonitorDto, UpdateMonitorDto } from './dto/monitor.dto';
+import { MonitorService } from './monitor.service';
 
-@Controller('risk')
-@ApiTags(IApiTags.Risk)
+@Controller('monitor')
+@ApiTags(IApiTags.Monitor)
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
-export class RiskController {
-  constructor(private riskService: RiskService) {}
+export class MonitorController {
+  constructor(private monitorService: MonitorService) {}
 
   @Post()
-  create(@Body() data: CreateRiskDto) {
-    return this.riskService.create(data);
+  create(@Body() data: CreateMonitorDto) {
+    return this.monitorService.create(data);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.riskService.remove(+id);
+    return this.monitorService.remove(+id);
   }
 
   @Put()
-  update(@Body() data: UpdateRiskDto) {
-    return this.riskService.update(data);
+  update(@Body() data: UpdateMonitorDto) {
+    return this.monitorService.update(data);
   }
 
   @ApiQuery({
     name: 'name',
     type: 'string',
-    description: 'risk name',
-    required: false,
-  })
-  @ApiQuery({
-    name: 'category',
-    type: 'string',
-    description: 'risk type name',
+    description: 'monitor name',
     required: false,
   })
   @ApiQuery({
@@ -67,11 +61,10 @@ export class RiskController {
     @Query('page', ParseIntPipe) page: number,
     @Query('limit', ParseIntPipe) limit: number,
     @Query('name') name: string,
-    @Query('category') category: string,
     // @Req() req,
   ) {
-    const query = { name, category, page, limit };
+    const query = { name, page, limit };
 
-    return this.riskService.findAll(query);
+    return this.monitorService.findAll(query);
   }
 }

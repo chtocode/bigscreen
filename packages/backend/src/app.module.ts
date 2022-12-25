@@ -8,6 +8,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { RiskModule } from './risk/risk.module';
 import { RescueModule } from './rescue/rescue.module';
 import { EnterpriseModule } from './enterprise/enterprise.module';
+import { MonitorModule } from './monitor/monitor.module';
 
 const envFilePath: string | string[] =
   process.env.NODE_ENV === 'production' ? '.env' : '.dev.env';
@@ -37,6 +38,7 @@ const envFilePath: string | string[] =
     RiskModule,
     RescueModule,
     EnterpriseModule,
+    MonitorModule,
   ],
   controllers: [AppController],
   providers: [AppService],
