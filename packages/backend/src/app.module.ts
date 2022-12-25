@@ -13,6 +13,9 @@ import { MonitorModule } from './monitor/monitor.module';
 const isProd = process.env.NODE_ENV === 'production';
 
 const envFilePath: string | string[] = isProd ? '.env' : '.dev.env';
+
+const pwd = isProd ? 'honey_badger' : '123456';
+
 @Module({
   imports: [
     AuthModule,
@@ -27,7 +30,7 @@ const envFilePath: string | string[] = isProd ? '.env' : '.dev.env';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: isProd ? 'honey_badger' : '123456',
+      password: pwd,
       database: 'bigscreen',
       entities: ['dist/**/*.entity{.ts,.js}'],
       synchronize: true,
