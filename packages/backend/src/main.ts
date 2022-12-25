@@ -46,10 +46,10 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api');
 
-  app.enableCors({ origin: false, credentials: true });
+  app.enableCors({ origin: true, credentials: true });
 
   if (isProd) {
-    useProd(app);
+    // useProd(app);
   }
 
   const options = new DocumentBuilder()
