@@ -140,7 +140,7 @@ class ApiService extends BaseApiService {
   }
 
   getUploadToken(name: string): Promise<IResponse<string>> {
-    return this.post<IResponse<string>>([RootPath.upload], { name }).then(this.showMessage(true));
+    return this.post<IResponse<string>>([RootPath.upload], { name });
   }
 
   getRisks(req?: RisksRequest): Promise<IResponse<RisksResponse>> {

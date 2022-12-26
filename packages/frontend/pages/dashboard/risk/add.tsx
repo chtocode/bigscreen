@@ -1,9 +1,8 @@
 import { InboxOutlined } from "@ant-design/icons";
 import { Button, Col, Form, Input, message, Row, Select, Upload } from "antd";
+import * as qiniu from "qiniu-js";
 import { H4 } from "../../../components/layout/H4";
 import Layout from "../../../components/layout/layout";
-import * as qiniu from "qiniu-js";
-import { RcFile } from "antd/es/upload";
 import apiService from "../../../lib/services/api-service";
 
 export enum RiskType {
@@ -17,19 +16,6 @@ export enum RiskType {
   waterPoint = "waterPoint",
 }
 
-export const ALLOW_UPLOAD_FILE_TYPES = ["image/png", "image/jpg", "image/jpeg", "image/gif"];
-
-function getOptimizeFileName(name: string): string {
-  const timestamp = new Date().getTime();
-  const ary = name.split(".");
-  const originName = ary
-    .slice(0, -1)
-    .map(item => item.replace(/\s/g, ""))
-    .join("_");
-
-  return originName + timestamp + "." + ary[ary.length - 1];
-}
-
 export default function Page() {
   const [form] = Form.useForm();
 
@@ -41,7 +27,10 @@ export default function Page() {
         form={form}
         layout="vertical"
         onFinish={value => {
-          console.log(value);
+          const { images, ...rest } = value;
+          const pictures = images.fileList.map(item => `http://rnhmcz3cs.hd-bkt.clouddn.com/${item.name}`);
+
+          console.log({ ...rest, pictures });
         }}
       >
         <Form.Item>
@@ -100,7 +89,7 @@ export default function Page() {
               <Input.TextArea placeholder="请输入" />
             </Form.Item>
 
-            <Form.Item name="pictures">
+            <Form.Item name="images">
               <Upload.Dragger
                 name="files"
                 multiple
@@ -108,12 +97,9 @@ export default function Page() {
                 customRequest={async data => {
                   const { onError, onSuccess, onProgress } = data;
                   const file = data.file as any;
-                  const name = getOptimizeFileName((file as RcFile).name);
-                  const res = await apiService.getUploadToken(name);
+                  const res = await apiService.getUploadToken(file.name);
 
-                  console.log(res);
-
-                  qiniu.upload(file as File, name, res.data).subscribe({
+                  qiniu.upload(file as File, file.name, res.data).subscribe({
                     next(data) {
                       const { total } = data;
                       if (total.percent === 100) {
@@ -132,9 +118,7 @@ export default function Page() {
                 }}
                 onChange={info => {
                   const { status } = info.file;
-                  if (status !== "uploading") {
-                    console.log(info.file, info.fileList);
-                  }
+
                   if (status === "done") {
                     message.success(`${info.file.name} 上传成功.`);
                   } else if (status === "error") {
