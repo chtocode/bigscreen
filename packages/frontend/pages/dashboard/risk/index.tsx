@@ -6,20 +6,9 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { useListEffect } from "../../../components/custom-hooks/list-effect";
 import Layout from "../../../components/layout/layout";
-import { Risk, RisksRequest, RisksResponse } from "../../../lib/model";
+import { Risk, RisksRequest, RisksResponse, RiskType, RiskTypeZh } from "../../../lib/model";
 import apiService from "../../../lib/services/api-service";
 import { genCommonTableProps } from "../../../lib/util";
-
-export enum RiskType {
-  firefighting = "firefighting",
-  traffic = "traffic",
-  industry = "industry",
-  building = "building",
-  engineering = "engineering",
-  slope = "slope",
-  decrepitHouse = "decrepitHouse",
-  waterPoint = "waterPoint",
-}
 
 export default function Page() {
   const router = useRouter();
@@ -44,6 +33,9 @@ export default function Page() {
     {
       title: "类型",
       dataIndex: "category",
+      render(val) {
+        return RiskTypeZh[val];
+      }
     },
     {
       title: "详细地址",

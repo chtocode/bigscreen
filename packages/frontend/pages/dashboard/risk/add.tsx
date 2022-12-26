@@ -1,20 +1,15 @@
 import { InboxOutlined } from "@ant-design/icons";
 import { Button, Col, Form, Input, message, Row, Select, Upload } from "antd";
+import dynamic from "next/dynamic";
 import * as qiniu from "qiniu-js";
 import { H4 } from "../../../components/layout/H4";
 import Layout from "../../../components/layout/layout";
+import { RiskType } from "../../../lib/model/risk";
 import apiService from "../../../lib/services/api-service";
 
-export enum RiskType {
-  firefighting = "firefighting",
-  traffic = "traffic",
-  industry = "industry",
-  building = "building",
-  engineering = "engineering",
-  slope = "slope",
-  decrepitHouse = "decrepitHouse",
-  waterPoint = "waterPoint",
-}
+const Coordinate = dynamic(() => import("../../../components/coordinate"), {
+  ssr: false,
+});
 
 export default function Page() {
   const [form] = Form.useForm();
@@ -28,9 +23,13 @@ export default function Page() {
         layout="vertical"
         onFinish={value => {
           const { images, ...rest } = value;
-          const pictures = images.fileList.map(item => `http://rnhmcz3cs.hd-bkt.clouddn.com/${item.name}`);
+          const pictures =
+            images && images.fileList?.length
+              ? images.fileList.map(item => `http://rnhmcz3cs.hd-bkt.clouddn.com/${item.name}`)
+              : [];
+          const req = { ...rest, pictures };
 
-          console.log({ ...rest, pictures });
+          apiService.createRisk(req);
         }}
       >
         <Form.Item>
@@ -57,7 +56,7 @@ export default function Page() {
               <Input placeholder="请输入" />
             </Form.Item>
 
-            <Form.Item name="category" label="风险点类型">
+            <Form.Item name="category" label="风险点类型" initialValue={RiskType.firefighting}>
               <Select placeholder="请选择类型" style={{ minWidth: 200 }}>
                 <Select.Option value={RiskType.firefighting}>消防安全风险点</Select.Option>
                 <Select.Option value={RiskType.traffic}>交通安全风险点</Select.Option>
@@ -71,10 +70,7 @@ export default function Page() {
             </Form.Item>
 
             <Form.Item name="coordinate" label="经纬度" rules={[{ required: true }]}>
-              <Input
-                addonAfter={<span className="cursor-pointer hover:text-blue-400">地图选点</span>}
-                placeholder="请输入"
-              />
+              <Coordinate />
             </Form.Item>
           </Col>
         </Row>

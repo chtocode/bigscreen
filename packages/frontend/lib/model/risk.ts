@@ -1,5 +1,5 @@
-import { BaseType, ListResponse, Paginator } from './api';
-import { Course, CourseShort } from './course';
+import { BaseType, ListResponse, Paginator } from "./api";
+import { Course, CourseShort } from "./course";
 
 export interface Risk {
   createdAt: string;
@@ -13,7 +13,6 @@ export interface Risk {
   coordinate: string;
   detail: string;
   pictures: string[];
-
 }
 
 export interface RisksRequest extends Paginator {
@@ -24,16 +23,43 @@ export interface RisksRequest extends Paginator {
 export interface RisksResponse extends ListResponse {
   risks: Risk[];
 }
-export interface AddStudentRequest {
+
+export enum RiskType {
+  firefighting = "firefighting",
+  traffic = "traffic",
+  industry = "industry",
+  building = "building",
+  engineering = "engineering",
+  slope = "slope",
+  decrepitHouse = "decrepitHouse",
+  waterPoint = "waterPoint",
+}
+
+export enum RiskTypeZh {
+  firefighting = "消防安全风险点",
+  traffic = "交通安全风险点",
+  industry = "工商贸风险点",
+  building = "建筑风险点",
+  engineering = "小散工程风和零星作业风险点",
+  slope = "危险边坡",
+  decrepitHouse = "危旧房屋",
+  waterPoint = "内涝积水点",
+}
+
+export interface AddRiskRequest {
   name: string;
-  country: string;
-  email: string;
-  type: number;
+  person?: string;
+  tel?: string;
+  category?: RiskType;
+  address?: string;
+  coordinate: string;
+  detail?: string;
+  pictures?: string[];
 }
 
 export type AddStudentResponse = Risk;
 
-export interface UpdateStudentRequest extends AddStudentRequest {
+export interface UpdateStudentRequest extends AddRiskRequest {
   id: number;
 }
 
