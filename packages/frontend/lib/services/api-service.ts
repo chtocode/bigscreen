@@ -139,11 +139,12 @@ class ApiService extends BaseApiService {
     return this.post<IResponse<boolean>>([RootPath.signUp], req).then(this.showMessage(true));
   }
 
+  getUploadToken(name: string): Promise<IResponse<string>> {
+    return this.post<IResponse<string>>([RootPath.upload], { name }).then(this.showMessage(true));
+  }
+
   getRisks(req?: RisksRequest): Promise<IResponse<RisksResponse>> {
-    return this.get<IResponse<RisksResponse>>(
-      RootPath.risk,
-      (req as unknown) as QueryParams
-    );
+    return this.get<IResponse<RisksResponse>>(RootPath.risk, req as unknown as QueryParams);
   }
 
   deleteRisk(id: number): Promise<IResponse<DeleteResponse>> {

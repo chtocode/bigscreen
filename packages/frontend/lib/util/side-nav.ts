@@ -91,9 +91,9 @@ const memoizedGetKeyPathInfo = memoize(getKeyPathInfo, (data) =>
 );
 
 const isPathEqual = (target: string) => (current: string) => {
-  current = current.endsWith('/') ? current.slice(0, -1) : current;
+  // current = current.endsWith('/') ? current.slice(0, -1) : current;
 
-  return current === target;
+  return current.startsWith(target) || target.startsWith(current);
 };
 
 /**

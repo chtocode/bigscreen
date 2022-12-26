@@ -7,6 +7,7 @@ import { navs, SideNav } from "../../lib/constant/routes";
 import apiService from "../../lib/services/api-service";
 import storage from "../../lib/services/storage";
 import { generateKey, getActiveKey } from "../../lib/util";
+import AppBreadcrumb from "../breadcrumb";
 // import AppBreadcrumb from "../breadcrumb";
 
 const { Header, Content, Sider } = Layout;
@@ -147,6 +148,8 @@ export default function AppLayout(props: React.PropsWithChildren<any>) {
             <UserIcon />
           </Row>
         </Header>
+
+        <AppBreadcrumb />
 
         <Content
           style={{

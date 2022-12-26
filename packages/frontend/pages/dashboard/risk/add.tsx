@@ -1,6 +1,10 @@
-import { Button, Form, Input, Select } from "antd";
-import { useState } from "react";
+import { InboxOutlined } from "@ant-design/icons";
+import { Button, Col, Form, Input, message, Row, Select, Upload } from "antd";
+import { H4 } from "../../../components/layout/H4";
 import Layout from "../../../components/layout/layout";
+import * as qiniu from "qiniu-js";
+import { RcFile } from "antd/es/upload";
+import apiService from "../../../lib/services/api-service";
 
 export enum RiskType {
   firefighting = "firefighting",
@@ -13,50 +17,143 @@ export enum RiskType {
   waterPoint = "waterPoint",
 }
 
+export const ALLOW_UPLOAD_FILE_TYPES = ["image/png", "image/jpg", "image/jpeg", "image/gif"];
+
+function getOptimizeFileName(name: string): string {
+  const timestamp = new Date().getTime();
+  const ary = name.split(".");
+  const originName = ary
+    .slice(0, -1)
+    .map(item => item.replace(/\s/g, ""))
+    .join("_");
+
+  return originName + timestamp + "." + ary[ary.length - 1];
+}
+
 export default function Page() {
-  const [query, setQuery] = useState<{ name?: string; category?: string }>();
   const [form] = Form.useForm();
 
   return (
     <Layout>
-      <Form layout="inline" form={form} className="flex gap-4">
-        <Form.Item name="name" label="风险点名称">
-          <Input placeholder="请输入风险点名称" />
+      <h3 className="mb-8">添加风险点</h3>
+
+      <Form
+        form={form}
+        layout="vertical"
+        onFinish={value => {
+          console.log(value);
+        }}
+      >
+        <Form.Item>
+          <H4>基本信息</H4>
         </Form.Item>
 
-        <Form.Item name="category" label="风险点类型">
-          <Select placeholder="请选择类型" style={{ minWidth: 200 }}>
-            <Select.Option value={RiskType.firefighting}>消防安全风险点</Select.Option>
-            <Select.Option value={RiskType.traffic}>交通安全风险点</Select.Option>
-            <Select.Option value={RiskType.industry}>工商贸风险点</Select.Option>
-            <Select.Option value={RiskType.building}>建筑风险点</Select.Option>
-            <Select.Option value={RiskType.engineering}>小散工程风和零星作业风险点</Select.Option>
-            <Select.Option value={RiskType.slope}>危险边坡</Select.Option>
-            <Select.Option value={RiskType.decrepitHouse}>危旧房屋</Select.Option>
-            <Select.Option value={RiskType.waterPoint}>内涝积水点</Select.Option>
-          </Select>
-        </Form.Item>
+        <Row justify="space-between" className="px-4">
+          <Col span={10}>
+            <Form.Item name="name" label="风险点名称" rules={[{ required: true }]}>
+              <Input placeholder="请输入风险点名称" />
+            </Form.Item>
+
+            <Form.Item name="tel" label="责任人电话">
+              <Input placeholder="请输入" />
+            </Form.Item>
+
+            <Form.Item name="address" label="详细地址">
+              <Input placeholder="请输入" />
+            </Form.Item>
+          </Col>
+
+          <Col span={10}>
+            <Form.Item name="person" label="责任人">
+              <Input placeholder="请输入" />
+            </Form.Item>
+
+            <Form.Item name="category" label="风险点类型">
+              <Select placeholder="请选择类型" style={{ minWidth: 200 }}>
+                <Select.Option value={RiskType.firefighting}>消防安全风险点</Select.Option>
+                <Select.Option value={RiskType.traffic}>交通安全风险点</Select.Option>
+                <Select.Option value={RiskType.industry}>工商贸风险点</Select.Option>
+                <Select.Option value={RiskType.building}>建筑风险点</Select.Option>
+                <Select.Option value={RiskType.engineering}>小散工程风和零星作业风险点</Select.Option>
+                <Select.Option value={RiskType.slope}>危险边坡</Select.Option>
+                <Select.Option value={RiskType.decrepitHouse}>危旧房屋</Select.Option>
+                <Select.Option value={RiskType.waterPoint}>内涝积水点</Select.Option>
+              </Select>
+            </Form.Item>
+
+            <Form.Item name="coordinate" label="经纬度" rules={[{ required: true }]}>
+              <Input
+                addonAfter={<span className="cursor-pointer hover:text-blue-400">地图选点</span>}
+                placeholder="请输入"
+              />
+            </Form.Item>
+          </Col>
+        </Row>
 
         <Form.Item>
-          <Button
-            type="primary"
-            onClick={() => {
-              const values = form.getFieldsValue();
+          <H4>详细信息</H4>
+        </Form.Item>
 
-              setQuery(values);
-            }}
-            className="mr-4"
-          >
-            查询
-          </Button>
+        <Row className="px-4">
+          <Col span="10">
+            <Form.Item name="detail" label="">
+              <Input.TextArea placeholder="请输入" />
+            </Form.Item>
 
-          <Button
-            onClick={() => {
-              form.resetFields();
-              setQuery(undefined);
-            }}
-          >
-            重置
+            <Form.Item name="pictures">
+              <Upload.Dragger
+                name="files"
+                multiple
+                action="http://rnhmcz3cs.hd-bkt.clouddn.com"
+                customRequest={async data => {
+                  const { onError, onSuccess, onProgress } = data;
+                  const file = data.file as any;
+                  const name = getOptimizeFileName((file as RcFile).name);
+                  const res = await apiService.getUploadToken(name);
+
+                  console.log(res);
+
+                  qiniu.upload(file as File, name, res.data).subscribe({
+                    next(data) {
+                      const { total } = data;
+                      if (total.percent === 100) {
+                        file.status = "done";
+                        onSuccess(file);
+                      } else {
+                        file.status = "uploading";
+                        onProgress({ percent: total.percent });
+                      }
+                    },
+                    error(event) {
+                      file.status = "error";
+                      onError({ status: 404, method: "post", ...event });
+                    },
+                  });
+                }}
+                onChange={info => {
+                  const { status } = info.file;
+                  if (status !== "uploading") {
+                    console.log(info.file, info.fileList);
+                  }
+                  if (status === "done") {
+                    message.success(`${info.file.name} 上传成功.`);
+                  } else if (status === "error") {
+                    message.error(`${info.file.name} 上传失败.`);
+                  }
+                }}
+              >
+                <p className="ant-upload-drag-icon">
+                  <InboxOutlined />
+                </p>
+                <p className="ant-upload-text">点击选择或将图片拖动到此处</p>
+              </Upload.Dragger>
+            </Form.Item>
+          </Col>
+        </Row>
+
+        <Form.Item className="px-4">
+          <Button type="primary" htmlType="submit" className="mr-4">
+            添加
           </Button>
         </Form.Item>
       </Form>

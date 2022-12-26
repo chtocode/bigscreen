@@ -2,13 +2,13 @@ import { Button, Divider, Form, Input, Popconfirm, Select, Space, Table } from "
 import { ColumnType } from "antd/lib/table";
 import TextLink from "antd/lib/typography/Link";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { useListEffect } from "../../../components/custom-hooks/list-effect";
 import Layout from "../../../components/layout/layout";
 import { Risk, RisksRequest, RisksResponse } from "../../../lib/model";
 import apiService from "../../../lib/services/api-service";
 import { genCommonTableProps } from "../../../lib/util";
-import { omitBy } from "lodash";
 
 export enum RiskType {
   firefighting = "firefighting",
@@ -22,6 +22,7 @@ export enum RiskType {
 }
 
 export default function Page() {
+  const router = useRouter();
   const [query, setQuery] = useState<{ name?: string; category?: string }>();
   const [form] = Form.useForm();
   const { data, loading, paginator, setPaginator, total, setTotal, setData } = useListEffect<
@@ -122,10 +123,14 @@ export default function Page() {
             查询
           </Button>
 
-          <Button onClick={() => {
-            form.resetFields();
-            setQuery(undefined);
-          }}>重置</Button>
+          <Button
+            onClick={() => {
+              form.resetFields();
+              setQuery(undefined);
+            }}
+          >
+            重置
+          </Button>
         </Form.Item>
       </Form>
 
@@ -133,7 +138,10 @@ export default function Page() {
 
       <div className="flex items-center justify-between mb-4">
         <h4>信息列表</h4>
-        <Button type="primary">添加</Button>
+
+        <Button type="primary" onClick={() => router.push("risk/add")}>
+          添加
+        </Button>
       </div>
 
       <Table

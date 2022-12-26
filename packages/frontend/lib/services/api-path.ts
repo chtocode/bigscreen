@@ -3,6 +3,7 @@ export enum RootPath {
   risk = "risk",
   login = "login",
   logout = "logout",
+  upload = 'upload_token'
 }
 
 export enum SubPath {

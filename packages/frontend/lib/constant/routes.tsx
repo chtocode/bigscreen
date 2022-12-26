@@ -7,14 +7,9 @@ export enum RoutePath {
   add = "add",
   edit = "edit",
   rescues = "rescues",
-  teachers = "teachers",
-  students = "students",
-  selectStudents = "selectStudents",
+  industry = "industry",
   risk = "risk",
-  own = "own",
-  schedule = "schedule",
-  profile = "profile",
-  message = "message",
+  monitor = 'monitor',
 }
 
 export interface SideNav {
@@ -31,23 +26,27 @@ const risks: SideNav = {
   label: "风险点管理",
   icon: <ReadOutlined />,
   hideLinkInBreadcrumb: true,
-  subNav: [
-    { path: [""], label: "风险点列表", icon: <ProjectOutlined /> },
-    { path: [RoutePath.add], label: "添加风险点", icon: <FileAddOutlined /> },
-    { path: [RoutePath.edit], label: "更新风险点", icon: <EditOutlined /> },
-  ],
 };
 
 const rescues: SideNav = {
-  path: [RoutePath.risk],
+  path: [RoutePath.rescues],
   label: "救援救助力量管理",
   icon: <ReadOutlined />,
   hideLinkInBreadcrumb: true,
-  subNav: [
-    { path: [""], label: "救援救助力量列表", icon: <ProjectOutlined /> },
-    { path: [RoutePath.add], label: "添加救援求助力量", icon: <FileAddOutlined /> },
-    { path: [RoutePath.edit], label: "更新救援求助力量", icon: <EditOutlined /> },
-  ],
 };
 
-export const navs: SideNav[] = [risks, rescues];
+const industry: SideNav = {
+  path: [RoutePath.industry],
+  label: "企业管理",
+  icon: <ReadOutlined />,
+  hideLinkInBreadcrumb: true,
+};
+
+const monitor: SideNav = {
+  path: [RoutePath.monitor],
+  label: "视频监控管理",
+  icon: <ReadOutlined />,
+  hideLinkInBreadcrumb: true,
+};
+
+export const navs: SideNav[] = [risks, rescues, industry, monitor];
