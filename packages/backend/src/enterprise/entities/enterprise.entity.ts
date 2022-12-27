@@ -25,6 +25,9 @@ export class EnterpriseEntity extends EntityWithTimeStamp {
   })
   address: string;
 
+  @Column()
+  floor: string;
+
   @Column({
     nullable: true,
   })

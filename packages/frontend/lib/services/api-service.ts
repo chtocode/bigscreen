@@ -4,12 +4,16 @@ import axios, { AxiosError } from "axios";
 import { AES } from "crypto-js";
 import {
   AddBuildingRequest,
+  AddEnterpriseRequest,
   AddMonitorRequest,
   AddRescueRequest,
   AddRiskRequest,
   Building,
   BuildingsRequest,
   BuildingsResponse,
+  Enterprise,
+  EnterprisesRequest,
+  EnterprisesResponse,
   Monitor,
   MonitorsRequest,
   MonitorsResponse,
@@ -218,6 +222,26 @@ class ApiService extends BaseApiService {
 
   updateBuilding(req: AddRiskRequest) {
     return this.put([RootPath.building], req).then(this.showMessage(true));
+  }
+
+  getEnterprises(req?: EnterprisesRequest): Promise<IResponse<EnterprisesResponse>> {
+    return this.get<IResponse<EnterprisesResponse>>(RootPath.enterprise, req as unknown as QueryParams);
+  }
+
+  getEnterpriseById(id?: number): Promise<IResponse<Enterprise>> {
+    return this.get<IResponse<Enterprise>>([RootPath.enterprise, id]);
+  }
+
+  deleteEnterprise(id: number): Promise<IResponse<DeleteResponse>> {
+    return this.delete([RootPath.enterprise, id]).then(this.showMessage(true));
+  }
+
+  createEnterprise(req: AddEnterpriseRequest) {
+    return this.post([RootPath.enterprise], req).then(this.showMessage(true));
+  }
+
+  updateEnterprise(req: AddEnterpriseRequest) {
+    return this.put([RootPath.enterprise], req).then(this.showMessage(true));
   }
 
   getMonitors(req?: MonitorsRequest): Promise<IResponse<MonitorsResponse>> {

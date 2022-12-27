@@ -21,6 +21,9 @@ export class CreateEnterpriseDto {
 
   @ApiProperty()
   pictures: string[];
+
+  @ApiProperty()
+  floor: string;
 }
 
 export class UpdateEnterpriseDto extends PartialType(CreateEnterpriseDto) {
