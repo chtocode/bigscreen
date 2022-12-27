@@ -7,7 +7,7 @@ export enum RoutePath {
   add = "add",
   edit = "edit",
   rescue = "rescue",
-  industry = "industry",
+  building = "building",
   risk = "risk",
   monitor = "monitor",
 }
@@ -36,7 +36,7 @@ const rescues: SideNav = {
 };
 
 const industry: SideNav = {
-  path: [RoutePath.industry],
+  path: [RoutePath.building],
   label: "企业管理",
   icon: <ReadOutlined />,
   hideLinkInBreadcrumb: true,

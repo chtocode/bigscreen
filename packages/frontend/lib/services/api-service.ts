@@ -3,9 +3,13 @@ import { message } from "antd";
 import axios, { AxiosError } from "axios";
 import { AES } from "crypto-js";
 import {
+  AddBuildingRequest,
   AddMonitorRequest,
   AddRescueRequest,
   AddRiskRequest,
+  Building,
+  BuildingsRequest,
+  BuildingsResponse,
   Monitor,
   MonitorsRequest,
   MonitorsResponse,
@@ -194,6 +198,26 @@ class ApiService extends BaseApiService {
 
   updateRescue(req: AddRiskRequest) {
     return this.put([RootPath.rescue], req).then(this.showMessage(true));
+  }
+
+  getBuildings(req?: BuildingsRequest): Promise<IResponse<BuildingsResponse>> {
+    return this.get<IResponse<BuildingsResponse>>(RootPath.building, req as unknown as QueryParams);
+  }
+
+  getBuildingById(id?: number): Promise<IResponse<Building>> {
+    return this.get<IResponse<Building>>([RootPath.building, id]);
+  }
+
+  deleteBuilding(id: number): Promise<IResponse<DeleteResponse>> {
+    return this.delete([RootPath.building, id]).then(this.showMessage(true));
+  }
+
+  createBuilding(req: AddBuildingRequest) {
+    return this.post([RootPath.building], req).then(this.showMessage(true));
+  }
+
+  updateBuilding(req: AddRiskRequest) {
+    return this.put([RootPath.building], req).then(this.showMessage(true));
   }
 
   getMonitors(req?: MonitorsRequest): Promise<IResponse<MonitorsResponse>> {

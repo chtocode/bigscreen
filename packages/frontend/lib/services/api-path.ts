@@ -5,6 +5,8 @@ export enum RootPath {
   login = "login",
   logout = "logout",
   monitor = "monitor",
+  building = "building",
+  enterprise = "enterprise",
   upload = "upload_token",
 }
 

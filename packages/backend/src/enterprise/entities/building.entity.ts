@@ -29,6 +29,9 @@ export class BuildingEntity extends EntityWithTimeStamp {
   address: string;
 
   @Column()
+  coordinate: string;
+
+  @Column()
   totalFloors: number;
 
   @Column()

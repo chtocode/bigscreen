@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.floor-control {
+  .ant-upload-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+
+    .ant-upload-list-item {
+      margin: 0;
+    }
+  }
+}
