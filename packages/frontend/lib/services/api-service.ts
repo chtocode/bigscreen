@@ -2,7 +2,7 @@
 import { message } from "antd";
 import axios, { AxiosError } from "axios";
 import { AES } from "crypto-js";
-import { AddRiskRequest, RisksRequest, RisksResponse } from "../model";
+import { AddRiskRequest, Risk, RisksRequest, RisksResponse } from "../model";
 import { DeleteResponse, IResponse, QueryParams } from "../model/api";
 import { LoginRequest, LoginResponse, SignUpRequest } from "../model/login";
 import { RootPath } from "./api-path";
@@ -147,12 +147,19 @@ class ApiService extends BaseApiService {
     return this.get<IResponse<RisksResponse>>(RootPath.risk, req as unknown as QueryParams);
   }
 
+  getRiskById(id?: number): Promise<IResponse<Risk>> {
+    return this.get<IResponse<Risk>>([RootPath.risk, id]);
+  }
+
   deleteRisk(id: number): Promise<IResponse<DeleteResponse>> {
     return this.delete([RootPath.risk, id]).then(this.showMessage(true));
   }
 
   createRisk(req: AddRiskRequest) {
     return this.post([RootPath.risk], req).then(this.showMessage(true));
+  }
+  updateRisk(req: AddRiskRequest) {
+    return this.put([RootPath.risk], req).then(this.showMessage(true));
   }
 }
 

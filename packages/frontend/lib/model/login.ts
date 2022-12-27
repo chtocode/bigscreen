@@ -1,5 +1,3 @@
-import { Role } from './role';
-
 export interface LoginFormValues {
   name: string;
   password: string;

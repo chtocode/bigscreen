@@ -1,5 +1,4 @@
-import { BaseType, ListResponse, Paginator } from "./api";
-import { Course, CourseShort } from "./course";
+import { ListResponse, Paginator } from "./api";
 
 export interface Risk {
   createdAt: string;
@@ -55,16 +54,4 @@ export interface AddRiskRequest {
   coordinate: string;
   detail?: string;
   pictures?: string[];
-}
-
-export type AddStudentResponse = Risk;
-
-export interface UpdateStudentRequest extends AddRiskRequest {
-  id: number;
-}
-
-export type UpdateStudentResponse = Risk;
-
-export interface StudentRequest {
-  id: number;
 }

@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { Role } from "../../lib/model";
 import storage, { UserInfo } from "../../lib/services/storage";
 
 export function useLoginState(): UserInfo {

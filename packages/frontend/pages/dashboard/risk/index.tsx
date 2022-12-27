@@ -57,7 +57,7 @@ export default function Page() {
           <Link href={`/dashboard/risk/edit/${record.id}`}>编辑</Link>
 
           <Popconfirm
-            title="Are you sure to delete?"
+            title="确定要删除吗?"
             onConfirm={() => {
               apiService.deleteRisk(record.id).then(res => {
                 const { data: isDeleted } = res;
@@ -72,8 +72,8 @@ export default function Page() {
                 }
               });
             }}
-            okText="Confirm"
-            cancelText="Cancel"
+            okText="确定"
+            cancelText="取消"
           >
             <TextLink>删除</TextLink>
           </Popconfirm>

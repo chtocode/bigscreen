@@ -1,21 +1,38 @@
-import { Form, Layout, Row, Col, Input, Select, Upload, message, Button } from "antd";
-import * as qiniu from "qiniu-js";
 import { InboxOutlined } from "@ant-design/icons";
+import { Button, Col, Form, Input, message, Row, Select, Upload } from "antd";
 import dynamic from "next/dynamic";
-import { RiskType } from "../lib/model";
+import * as qiniu from "qiniu-js";
+import { useEffect, useState } from "react";
+import { Risk, RiskType } from "../lib/model";
 import apiService from "../lib/services/api-service";
 import { H4 } from "./layout/H4";
+import { uniq } from 'lodash';
 
 const Coordinate = dynamic(() => import("./coordinate"), {
   ssr: false,
 });
 
-export function RiskForm() {
+export function RiskForm({ risk }: { risk: Risk }) {
   const [form] = Form.useForm();
+  const isEdit = !!risk;
+  const title = isEdit ? "更新风险点" : "添加风险点";
+  const fileList = risk?.pictures.map(item => ({
+    name: item.split("/").reverse()[0],
+    url: item,
+    status: "done",
+    uid: item,
+  })) as any[];
+  const [removedList, setRemovedList] = useState([]);
+
+  useEffect(() => {
+    if (risk) {
+      form.setFieldsValue(risk);
+    }
+  }, [risk]);
 
   return (
     <>
-      <h3 className="mb-8">添加风险点</h3>
+      <h3 className="mb-8">{title}</h3>
 
       <Form
         form={form}
@@ -28,7 +45,18 @@ export function RiskForm() {
               : [];
           const req = { ...rest, pictures };
 
-          apiService.createRisk(req);
+          if (isEdit) {
+            apiService.updateRisk({
+              ...req,
+              pictures: uniq([
+                ...req.pictures,
+                ...fileList.filter(item => !removedList.find(r => r === item.name)).map(item => item.url),
+              ]),
+              id: risk.id,
+            });
+          } else {
+            apiService.createRisk(req);
+          }
         }}
       >
         <Form.Item>
@@ -89,6 +117,10 @@ export function RiskForm() {
                 name="files"
                 multiple
                 action="http://rnhmcz3cs.hd-bkt.clouddn.com"
+                defaultFileList={fileList}
+                onRemove={file => {
+                  setRemovedList([...removedList, file.name]);
+                }}
                 customRequest={async data => {
                   const { onError, onSuccess, onProgress } = data;
                   const file = data.file as any;
@@ -132,7 +164,7 @@ export function RiskForm() {
 
         <Form.Item className="px-4">
           <Button type="primary" htmlType="submit" className="mr-4">
-            添加
+            提交
           </Button>
         </Form.Item>
       </Form>
