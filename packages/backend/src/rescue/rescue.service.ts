@@ -37,21 +37,23 @@ export class RescueService {
 
   async findAll({ name = '%', category = '', page, limit }: RescueQuery) {
     const selector = this.rescueRepo
-      .createQueryBuilder('risk')
+      .createQueryBuilder('rescue')
       .where(
-        `risk.name LIKE :param ${category ? 'AND risk.category = :type' : ''} `,
+        `rescue.name LIKE :param ${
+          category ? 'AND rescue.category = :type' : ''
+        } `,
       )
       .setParameters({ param: '%' + name + '%', type: category })
-      .orderBy('risk.id');
+      .orderBy('rescue.id');
 
     const total = await selector.getCount();
-    const risks = await selector
+    const rescues = await selector
       .skip((page - 1) * limit)
       .take(limit)
       .getMany();
 
     return {
-      risks,
+      rescues,
       total,
       paginator: { page, limit },
     };

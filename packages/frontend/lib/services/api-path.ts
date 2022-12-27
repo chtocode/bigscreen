@@ -1,6 +1,7 @@
 export enum RootPath {
   signUp = "signup",
   risk = "risk",
+  rescue = 'rescue',
   login = "login",
   logout = "logout",
   upload = 'upload_token'

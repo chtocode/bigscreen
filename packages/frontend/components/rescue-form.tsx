@@ -3,20 +3,20 @@ import { Button, Col, Form, Input, message, Row, Select, Upload } from "antd";
 import dynamic from "next/dynamic";
 import * as qiniu from "qiniu-js";
 import { useEffect, useState } from "react";
-import { Risk, RiskType } from "../lib/model";
+import { Rescue, RescueType } from "../lib/model";
 import apiService from "../lib/services/api-service";
 import { H4 } from "./layout/H4";
-import { uniq } from 'lodash';
+import { uniq } from "lodash";
 
 const Coordinate = dynamic(() => import("./coordinate"), {
   ssr: false,
 });
 
-export function RiskForm({ risk }: { risk?: Risk }) {
+export function RescueForm({ rescue }: { rescue?: Rescue }) {
   const [form] = Form.useForm();
-  const isEdit = !!risk;
-  const title = isEdit ? "更新风险点" : "添加风险点";
-  const fileList = risk?.pictures.map(item => ({
+  const isEdit = !!rescue;
+  const title = isEdit ? "更新救援点" : "添加救援点";
+  const fileList = rescue?.pictures.map(item => ({
     name: item.split("/").reverse()[0],
     url: item,
     status: "done",
@@ -25,10 +25,10 @@ export function RiskForm({ risk }: { risk?: Risk }) {
   const [removedList, setRemovedList] = useState([]);
 
   useEffect(() => {
-    if (risk) {
-      form.setFieldsValue(risk);
+    if (rescue) {
+      form.setFieldsValue(rescue);
     }
-  }, [risk]);
+  }, [rescue]);
 
   return (
     <>
@@ -46,16 +46,16 @@ export function RiskForm({ risk }: { risk?: Risk }) {
           const req = { ...rest, pictures };
 
           if (isEdit) {
-            apiService.updateRisk({
+            apiService.updateRescue({
               ...req,
               pictures: uniq([
                 ...req.pictures,
                 ...fileList.filter(item => !removedList.find(r => r === item.name)).map(item => item.url),
               ]),
-              id: risk.id,
+              id: rescue.id,
             });
           } else {
-            apiService.createRisk(req);
+            apiService.createRescue(req);
           }
         }}
       >
@@ -83,16 +83,12 @@ export function RiskForm({ risk }: { risk?: Risk }) {
               <Input placeholder="请输入" />
             </Form.Item>
 
-            <Form.Item name="category" label="风险点类型" initialValue={RiskType.firefighting}>
+            <Form.Item name="category" label="风险点类型" initialValue={RescueType.firefighting}>
               <Select placeholder="请选择类型" style={{ minWidth: 200 }}>
-                <Select.Option value={RiskType.firefighting}>消防安全风险点</Select.Option>
-                <Select.Option value={RiskType.traffic}>交通安全风险点</Select.Option>
-                <Select.Option value={RiskType.industry}>工商贸风险点</Select.Option>
-                <Select.Option value={RiskType.building}>建筑风险点</Select.Option>
-                <Select.Option value={RiskType.engineering}>小散工程风和零星作业风险点</Select.Option>
-                <Select.Option value={RiskType.slope}>危险边坡</Select.Option>
-                <Select.Option value={RiskType.decrepitHouse}>危旧房屋</Select.Option>
-                <Select.Option value={RiskType.waterPoint}>内涝积水点</Select.Option>
+                <Select.Option value={RescueType.firefighting}>消防安全风险点</Select.Option>
+                <Select.Option value={RescueType.tinyFirefighting}>工业园微型消防站</Select.Option>
+                <Select.Option value={RescueType.securityOfficer}>安全员</Select.Option>
+                <Select.Option value={RescueType.skyRescue}>蓝天救援队</Select.Option>
               </Select>
             </Form.Item>
 

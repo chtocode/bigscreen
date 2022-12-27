@@ -2,7 +2,16 @@
 import { message } from "antd";
 import axios, { AxiosError } from "axios";
 import { AES } from "crypto-js";
-import { AddRiskRequest, Risk, RisksRequest, RisksResponse } from "../model";
+import {
+  AddRescueRequest,
+  AddRiskRequest,
+  Rescue,
+  RescuesRequest,
+  RescuesResponse,
+  Risk,
+  RisksRequest,
+  RisksResponse,
+} from "../model";
 import { DeleteResponse, IResponse, QueryParams } from "../model/api";
 import { LoginRequest, LoginResponse, SignUpRequest } from "../model/login";
 import { RootPath } from "./api-path";
@@ -160,6 +169,26 @@ class ApiService extends BaseApiService {
   }
   updateRisk(req: AddRiskRequest) {
     return this.put([RootPath.risk], req).then(this.showMessage(true));
+  }
+
+  getRescues(req?: RescuesRequest): Promise<IResponse<RescuesResponse>> {
+    return this.get<IResponse<RescuesResponse>>(RootPath.rescue, req as unknown as QueryParams);
+  }
+
+  getRescueById(id?: number): Promise<IResponse<Rescue>> {
+    return this.get<IResponse<Rescue>>([RootPath.rescue, id]);
+  }
+
+  deleteRescue(id: number): Promise<IResponse<DeleteResponse>> {
+    return this.delete([RootPath.rescue, id]).then(this.showMessage(true));
+  }
+
+  createRescue(req: AddRescueRequest) {
+    return this.post([RootPath.rescue], req).then(this.showMessage(true));
+  }
+
+  updateRescue(req: AddRiskRequest) {
+    return this.put([RootPath.rescue], req).then(this.showMessage(true));
   }
 }
 
