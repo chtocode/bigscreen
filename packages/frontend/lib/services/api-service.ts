@@ -3,8 +3,12 @@ import { message } from "antd";
 import axios, { AxiosError } from "axios";
 import { AES } from "crypto-js";
 import {
+  AddMonitorRequest,
   AddRescueRequest,
   AddRiskRequest,
+  Monitor,
+  MonitorsRequest,
+  MonitorsResponse,
   Rescue,
   RescuesRequest,
   RescuesResponse,
@@ -167,6 +171,7 @@ class ApiService extends BaseApiService {
   createRisk(req: AddRiskRequest) {
     return this.post([RootPath.risk], req).then(this.showMessage(true));
   }
+
   updateRisk(req: AddRiskRequest) {
     return this.put([RootPath.risk], req).then(this.showMessage(true));
   }
@@ -189,6 +194,26 @@ class ApiService extends BaseApiService {
 
   updateRescue(req: AddRiskRequest) {
     return this.put([RootPath.rescue], req).then(this.showMessage(true));
+  }
+
+  getMonitors(req?: MonitorsRequest): Promise<IResponse<MonitorsResponse>> {
+    return this.get<IResponse<MonitorsResponse>>(RootPath.monitor, req as unknown as QueryParams);
+  }
+
+  getMonitorById(id?: number): Promise<IResponse<Monitor>> {
+    return this.get<IResponse<Monitor>>([RootPath.monitor, id]);
+  }
+
+  deleteMonitor(id: number): Promise<IResponse<DeleteResponse>> {
+    return this.delete([RootPath.monitor, id]).then(this.showMessage(true));
+  }
+
+  createMonitor(req: AddMonitorRequest) {
+    return this.post([RootPath.monitor], req).then(this.showMessage(true));
+  }
+
+  updateMonitor(req: AddRiskRequest) {
+    return this.put([RootPath.monitor], req).then(this.showMessage(true));
   }
 }
 

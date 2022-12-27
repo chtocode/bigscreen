@@ -4,3 +4,4 @@ export * from './logout';
 export * from './risk';
 export * from './user';
 export * from './rescue'
+export * from './monitor';

@@ -1,4 +1,4 @@
-import { EditOutlined, FileAddOutlined, ProjectOutlined, ReadOutlined } from "@ant-design/icons";
+import { ReadOutlined } from "@ant-design/icons";
 
 /**
  * router path
@@ -9,7 +9,7 @@ export enum RoutePath {
   rescue = "rescue",
   industry = "industry",
   risk = "risk",
-  monitor = 'monitor',
+  monitor = "monitor",
 }
 
 export interface SideNav {
