@@ -16,7 +16,7 @@ export default function AppBreadcrumb() {
           const nav = navs.find(item => item.path.includes(path));
           name = nav.label;
         } else {
-          name = { add: "添加", edit: "更新", update: "更新" }[path];
+          name = { add: "添加", edit: "更新", update: "更新", '[building]': '企业' }[path];
         }
 
         return <Breadcrumb.Item key={index}>{name}</Breadcrumb.Item>;

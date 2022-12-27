@@ -1,4 +1,11 @@
-import { LogoutOutlined, MenuFoldOutlined, MenuUnfoldOutlined, UserOutlined, BankOutlined } from "@ant-design/icons";
+import {
+  LogoutOutlined,
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  UserOutlined,
+  BankOutlined,
+  DesktopOutlined,
+} from "@ant-design/icons";
 import { Avatar, Dropdown, Layout, Menu, Row } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -8,7 +15,6 @@ import apiService from "../../lib/services/api-service";
 import storage from "../../lib/services/storage";
 import { generateKey, getActiveKey } from "../../lib/util";
 import AppBreadcrumb from "../breadcrumb";
-// import AppBreadcrumb from "../breadcrumb";
 
 const { Header, Content, Sider } = Layout;
 
@@ -37,8 +43,8 @@ function UserIcon() {
         overlay={
           <Menu>
             <Menu.Item onClick={onLogout}>
-              <LogoutOutlined />
-              <span>Logout</span>
+              <LogoutOutlined className="mr-2" />
+              <span>退出</span>
             </Menu.Item>
           </Menu>
         }
@@ -145,6 +151,19 @@ export default function AppLayout(props: React.PropsWithChildren<any>) {
           </span>
 
           <Row align="middle">
+            <span
+              style={{
+                fontSize: 18,
+                color: "#fff",
+                cursor: "pointer",
+                transition: "color 0.3s",
+                marginLeft: "2em",
+              }}
+              // add bigscreen link
+            >
+              <DesktopOutlined />
+            </span>
+
             <UserIcon />
           </Row>
         </Header>

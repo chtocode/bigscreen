@@ -16,7 +16,7 @@ const Coordinate = dynamic(() => import("./coordinate"), {
 export function EnterpriseForm({ enterprise }: { enterprise?: Enterprise }) {
   const [form] = Form.useForm();
   const isEdit = !!enterprise;
-  const title = isEdit ? "更新风险点" : "添加风险点";
+  const title = isEdit ? "更新企业" : "添加企业";
   const fileList = enterprise?.pictures.map(item => ({
     name: item.split("/").reverse()[0],
     url: item,

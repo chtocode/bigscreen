@@ -122,7 +122,7 @@ export function BuildingForm({ building }: { building?: Building }) {
                 </div>
               ))}
 
-              <Form.Item className="max-w-md pl-4">
+              <Form.Item className="max-w-md ml-4">
                 <Button type="dashed" size="large" onClick={() => add()} block>
                   添加楼层
                 </Button>
