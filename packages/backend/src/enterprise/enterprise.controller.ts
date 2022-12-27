@@ -58,14 +58,21 @@ export class EnterpriseController {
     description: 'current page. first page: 1. Required if limit set',
     required: true,
   })
+  @ApiQuery({
+    name: 'buildingId',
+    type: 'number',
+    description: 'building id',
+    required: false,
+  })
   @Get()
   async findAll(
     @Query('page', ParseIntPipe) page: number,
     @Query('limit', ParseIntPipe) limit: number,
     @Query('name') name: string,
+    @Query('buildingId') buildingId: string,
     // @Req() req,
   ) {
-    const query = { name, page, limit };
+    const query = { name, page, limit, buildingId: +buildingId };
 
     return this.enterpriseService.findAll(query);
   }

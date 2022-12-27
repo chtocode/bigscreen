@@ -14,6 +14,7 @@ export interface Enterprise {
 
 export interface EnterprisesRequest extends Paginator {
   name?: string;
+  buildingId?: number;
 }
 
 export interface EnterprisesResponse extends ListResponse {

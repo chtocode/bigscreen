@@ -12,13 +12,13 @@ import { genCommonTableProps } from "../../../../lib/util";
 
 export default function Page() {
   const router = useRouter();
-  const [query, setQuery] = useState<{ name?: string; category?: string }>();
+  const [query, setQuery] = useState<{ name?: string }>();
   const [form] = Form.useForm();
   const { data, loading, paginator, setPaginator, total, setTotal, setData } = useListEffect<
     EnterprisesRequest,
     EnterprisesResponse,
     Enterprise
-  >(apiService.getEnterprises.bind(apiService), "enterprises", true, query);
+  >(apiService.getEnterprises.bind(apiService), "enterprises", true, { ...query, buildingId: +router.query.building });
 
   const columns: ColumnType<Enterprise>[] = [
     {
@@ -111,10 +111,13 @@ export default function Page() {
       <div className="flex items-center justify-between mb-4">
         <h4>信息列表</h4>
 
-        <Button type="primary" onClick={() => {
-          const { building } = router.query;
-          router.push(`${building}/add`);
-        }}>
+        <Button
+          type="primary"
+          onClick={() => {
+            const { building } = router.query;
+            router.push(`${building}/add`);
+          }}
+        >
           添加
         </Button>
       </div>

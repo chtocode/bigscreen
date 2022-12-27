@@ -9,6 +9,7 @@ export interface EnterpriseQuery {
   name?: string;
   page: number;
   limit: number;
+  buildingId?: number;
 }
 
 @Injectable()
@@ -49,11 +50,17 @@ export class EnterpriseService {
     }
   }
 
-  async findAll({ name = '%', page, limit }: EnterpriseQuery) {
+  async findAll({ name = '%', buildingId, page, limit }: EnterpriseQuery) {
     const selector = this.enterpriseRepo
       .createQueryBuilder('enterprise')
-      .where(`enterprise.name LIKE :param`)
-      .setParameters({ param: '%' + name + '%' })
+      .where(
+        `enterprise.name LIKE :param ${
+          typeof buildingId === 'number' && !isNaN(buildingId)
+            ? 'AND enterprise.buildingId = :buildingId'
+            : ''
+        }`,
+      )
+      .setParameters({ param: '%' + name + '%', buildingId })
       .orderBy('enterprise.id');
 
     const total = await selector.getCount();
