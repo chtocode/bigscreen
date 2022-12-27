@@ -74,4 +74,9 @@ export class RiskController {
 
     return this.riskService.findAll(query);
   }
+
+  @Get(':id')
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.riskService.findOne(id);
+  }
 }

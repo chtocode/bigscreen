@@ -69,6 +69,11 @@ export class EnterpriseController {
 
     return this.enterpriseService.findAll(query);
   }
+
+  @Get(':id')
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.enterpriseService.findOne(id);
+  }
 }
 
 @Controller('building')
@@ -121,5 +126,10 @@ export class BuildingController {
     const query = { name, page, limit };
 
     return this.buildingService.findAll(query);
+  }
+
+  @Get(':id')
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.buildingService.findOne(id);
   }
 }

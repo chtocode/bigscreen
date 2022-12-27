@@ -54,7 +54,7 @@ export default function Page() {
       dataIndex: "action",
       render: (_, record: Risk) => (
         <Space size="middle">
-          <Link href="/dashboard/risk/edit">编辑</Link>
+          <Link href={`/dashboard/risk/edit/${record.id}`}>编辑</Link>
 
           <Popconfirm
             title="Are you sure to delete?"

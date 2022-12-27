@@ -54,6 +54,10 @@ export class MonitorService {
     };
   }
 
+  async findOne(id: number) {
+    return this.monitorRepo.findOne({ where: { id } });
+  }
+
   async remove(id: number): Promise<boolean> {
     const target = await this.monitorRepo.findOne({ where: { id } });
 

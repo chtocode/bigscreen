@@ -63,6 +63,10 @@ export class BuildingService {
     };
   }
 
+  async findOne(id: number) {
+    return this.buildingRepo.findOne({ where: { id } });
+  }
+
   async remove(id: number): Promise<boolean> {
     const target = await this.buildingRepo.findOne({ where: { id } });
 

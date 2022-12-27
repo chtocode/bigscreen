@@ -67,4 +67,9 @@ export class MonitorController {
 
     return this.monitorService.findAll(query);
   }
+
+  @Get(':id')
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.monitorService.findOne(id);
+  }
 }

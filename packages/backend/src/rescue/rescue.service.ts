@@ -15,19 +15,19 @@ export interface RescueQuery {
 export class RescueService {
   constructor(
     @InjectRepository(RescueEntity)
-    private riskRepo: Repository<RescueEntity>,
+    private rescueRepo: Repository<RescueEntity>,
   ) {}
 
   async create(data: CreateRescueDto) {
-    return this.riskRepo.save(data);
+    return this.rescueRepo.save(data);
   }
 
   async update(data: UpdateRescueDto) {
     const { id, ...rest } = data;
-    const target = await this.riskRepo.findOne({ where: { id } });
+    const target = await this.rescueRepo.findOne({ where: { id } });
 
     if (target) {
-      await this.riskRepo.update(id, rest);
+      await this.rescueRepo.update(id, rest);
 
       return true;
     } else {
@@ -36,7 +36,7 @@ export class RescueService {
   }
 
   async findAll({ name = '%', category = '', page, limit }: RescueQuery) {
-    const selector = this.riskRepo
+    const selector = this.rescueRepo
       .createQueryBuilder('risk')
       .where(
         `risk.name LIKE :param ${category ? 'AND risk.category = :type' : ''} `,
@@ -57,11 +57,15 @@ export class RescueService {
     };
   }
 
+  async findOne(id: number) {
+    return this.rescueRepo.findOne({ where: { id } });
+  }
+
   async remove(id: number): Promise<boolean> {
-    const target = await this.riskRepo.findOne({ where: { id } });
+    const target = await this.rescueRepo.findOne({ where: { id } });
 
     if (target && !target.deletedAt) {
-      await this.riskRepo.softDelete({ id });
+      await this.rescueRepo.softDelete({ id });
 
       return true;
     } else {

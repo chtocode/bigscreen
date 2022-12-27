@@ -74,4 +74,9 @@ export class RescueController {
 
     return this.rescueService.findAll(query);
   }
+
+  @Get(':id')
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.rescueService.findOne(id);
+  }
 }

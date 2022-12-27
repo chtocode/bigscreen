@@ -57,6 +57,10 @@ export class RiskService {
     };
   }
 
+  async findOne(id: number) {
+    return this.riskRepo.findOne({ where: { id } });
+  }
+
   async remove(id: number): Promise<boolean> {
     const target = await this.riskRepo.findOne({ where: { id } });
 

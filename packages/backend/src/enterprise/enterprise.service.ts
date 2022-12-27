@@ -69,6 +69,10 @@ export class EnterpriseService {
     };
   }
 
+  async findOne(id: number) {
+    return this.enterpriseRepo.findOne({ where: { id } });
+  }
+
   async remove(id: number): Promise<boolean> {
     const target = await this.enterpriseRepo.findOne({ where: { id } });
 
