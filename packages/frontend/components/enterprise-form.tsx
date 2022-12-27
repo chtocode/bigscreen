@@ -97,7 +97,7 @@ export function EnterpriseForm({ enterprise }: { enterprise?: Enterprise }) {
               <Input placeholder="请输入" />
             </Form.Item>
 
-            <Form.Item name="coordinate" label="楼层" rules={[{ required: true }]}>
+            <Form.Item name="floor" label="楼层" rules={[{ required: true }]}>
               <Select>
                 {floors.map((item, index) => (
                   <Select.Option value={item.name} key={index}>

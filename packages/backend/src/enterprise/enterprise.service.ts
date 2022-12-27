@@ -29,13 +29,13 @@ export class EnterpriseService {
   }
 
   async update(data: UpdateEnterpriseDto) {
-    const { id, ...rest } = data;
+    const { id, buildingId, ...rest } = data;
     const target = await this.enterpriseRepo.findOne({ where: { id } });
 
     if (target) {
-      if (rest.buildingId) {
+      if (buildingId) {
         const building = await this.buildingRepo.findOne({
-          where: { id: rest.buildingId },
+          where: { id: buildingId },
         });
 
         await this.enterpriseRepo.update(id, { ...rest, building });
