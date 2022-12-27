@@ -85,11 +85,11 @@ export default function Page() {
   return (
     <Layout>
       <Form layout="inline" form={form} className="flex gap-4">
-        <Form.Item name="name" label="风险点名称">
-          <Input placeholder="请输入风险点名称" />
+        <Form.Item name="name" label="救援点名称">
+          <Input placeholder="请输入救援点名称" />
         </Form.Item>
 
-        <Form.Item name="category" label="风险点类型">
+        <Form.Item name="category" label="救援点类型">
           <Select placeholder="请选择类型" style={{ minWidth: 200 }}>
             <Select.Option value={RescueType.firefighting}>消防安全风险点</Select.Option>
             <Select.Option value={RescueType.tinyFirefighting}>工业园微型消防站</Select.Option>

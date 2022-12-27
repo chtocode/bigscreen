@@ -6,7 +6,7 @@ import { EditOutlined, FileAddOutlined, ProjectOutlined, ReadOutlined } from "@a
 export enum RoutePath {
   add = "add",
   edit = "edit",
-  rescues = "rescues",
+  rescue = "rescue",
   industry = "industry",
   risk = "risk",
   monitor = 'monitor',
@@ -29,7 +29,7 @@ const risks: SideNav = {
 };
 
 const rescues: SideNav = {
-  path: [RoutePath.rescues],
+  path: [RoutePath.rescue],
   label: "救援救助力量管理",
   icon: <ReadOutlined />,
   hideLinkInBreadcrumb: true,

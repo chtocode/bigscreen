@@ -65,8 +65,8 @@ export function RescueForm({ rescue }: { rescue?: Rescue }) {
 
         <Row justify="space-between" className="px-4">
           <Col span={10}>
-            <Form.Item name="name" label="风险点名称" rules={[{ required: true }]}>
-              <Input placeholder="请输入风险点名称" />
+            <Form.Item name="name" label="救援点名称" rules={[{ required: true }]}>
+              <Input placeholder="请输入救援点名称" />
             </Form.Item>
 
             <Form.Item name="tel" label="责任人电话">
@@ -83,9 +83,9 @@ export function RescueForm({ rescue }: { rescue?: Rescue }) {
               <Input placeholder="请输入" />
             </Form.Item>
 
-            <Form.Item name="category" label="风险点类型" initialValue={RescueType.firefighting}>
+            <Form.Item name="category" label="救援点类型" initialValue={RescueType.firefighting}>
               <Select placeholder="请选择类型" style={{ minWidth: 200 }}>
-                <Select.Option value={RescueType.firefighting}>消防安全风险点</Select.Option>
+                <Select.Option value={RescueType.firefighting}>消防安全救援点</Select.Option>
                 <Select.Option value={RescueType.tinyFirefighting}>工业园微型消防站</Select.Option>
                 <Select.Option value={RescueType.securityOfficer}>安全员</Select.Option>
                 <Select.Option value={RescueType.skyRescue}>蓝天救援队</Select.Option>
