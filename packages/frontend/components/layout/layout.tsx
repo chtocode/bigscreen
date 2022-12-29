@@ -176,6 +176,8 @@ export default function AppLayout(props: React.PropsWithChildren<any>) {
             backgroundColor: "#fff",
             padding: "16px",
             minHeight: "auto",
+            height: "calc(100vh - 118px)",
+            overflow: "scroll"
           }}
         >
           {children}
